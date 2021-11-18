@@ -1,9 +1,9 @@
-; 7-segment LED interface: Display from 0 to 9 after each second. When the value is 9, it will come back to 0.
+; 7-segment common-cathode LED interface: Display from 0 to 9 after each second. When the value is 9, it will come back to 0.
 ; Microcontroller : AT89C52
 ; Simulation : Proteus 
 ; Programming language : Assembly 
-; Hardware connection : Port 1 is conneted to 7-segment LED. Pin 1.7 is not connected.  
-; 7-segment LED table decoder
+; Hardware connection : Port 1 is conneted to 7-segment LED. Pin 1.7 is not connected. 
+; 7-segment LED decoder table
 ORG 4000H
 DB 3FH ; display 0 pattern
 DB 06H ; display 1 pattern
