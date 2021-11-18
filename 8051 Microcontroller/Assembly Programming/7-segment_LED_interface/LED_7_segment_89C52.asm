@@ -28,7 +28,7 @@ DISPLAY : 	MOV A,#0
 		INC DPTR
 		SJMP DISPLAY
 		SJMP MAIN
-; Delay function : 1 second	
+; Delay function : approximate 1 second	
 DELAY_1S : 
 	  MOV R0,#5    
 LOOP3	: MOV R1,#200   
