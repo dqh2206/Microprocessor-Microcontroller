@@ -1,0 +1,182 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	C:\Users\84975\Documents\MIDE 8051\LED_7_segment_Interface_7447_89C52.asm
+	Object File:	C:\Users\84975\Documents\MIDE 8051\LED_7_segment_Interface_7447_89C52.hex
+	List File:	C:\Users\84975\Documents\MIDE 8051\LED_7_segment_Interface_7447_89C52.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				; Button counter : When the button is pressed, the counter increases, 2 LEDs display the number of b
+				utton press. When the value is 99, it will come back to 00.
+    2:				; Microcontroller : AT89C52
+    3:				; Simulation : Proteus
+    4:				; Programming language : Assembly
+    5:				; Hardware connection : Port 1 is conneted to 2 IC 7447, which decode for 2 LEDs. Pin 0 of port 0 is
+				 connected to the button.
+    6:				; The button is grounded through a 10K resister. If the button is not pressed, pin 0.0 is LOW. If th
+				e button is pressed, pin 0.0 is HIGH.
+    7:		N      0000	ORG 0000H
+    8:	  0000			MAIN :
+    9:	  0000	7B 00				MOV R3,#0 ; initialize 2 LEDs displaying 00, R3 is a button counter
+   10:	  0002	D2 80				SETB P0.0 ; write HIGH logic to pin 0.0 -> pin 0.0 is input
+   11:	  0004	20 80 14			JB P0.0, BUTTON_CHECK ; check the button is pressed or not
+   12:	  0007	EB		START :		MOV A, R3 ; A is check register
+   13:	  0008	54 0F				ANL A, #0FH
+   14:	  000A	B4 0A 03			CJNE A,#10, DISPLAY
+   15:	  000D	12 00 1D			CALL BCD_DECODE
+   16:	  0010	EB		DISPLAY : 	MOV A, R3
+   17:	  0011	F5 90				MOV P1,A
+   18:	  0013	12 00 22			CALL DELAY_1S
+   19:	  0016	BB 9A EE			CJNE R3,#154,START ;
+   20:	  0019	80 E5				SJMP MAIN
+   21:				; Button check
+   22:	  001B			BUTTON_CHECK :
+   23:	  001B	0B				INC R3
+   24:	  001C	22				RET
+   25:				; BCD decoder
+   26:	  001D			BCD_DECODE :
+   27:	  001D	EB				MOV A, R3
+   28:	  001E	24 06				ADD A, #6
+   29:	  0020	FB				MOV R3, A
+   30:	  0021	22				RET
+   31:				; Delay function : 1 second
+   32:	  0022			DELAY_1S :
+   33:	  0022	78 05			  MOV R0,#5
+   34:	  0024	79 C8		LOOP3	: MOV R1,#200
+   35:	  0026	7A C8		LOOP2 	: MOV R2,#200
+   36:	  0028	00		LOOP1	: NOP
+   37:	  0029	DA FD			  DJNZ R2, LOOP1
+   38:	  002B	D9 F9			  DJNZ R1, LOOP2
+   39:	  002D	D8 F5			  DJNZ R0, LOOP3
+   40:	  002F	22			  RET
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+   41:				END
+
+
+
+
+
+                     register banks used:  ---
+
+                     no errors
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+BCD_DECODE			  CODE	    001D	  26
+BUTTON_CHECK			  CODE	    001B	  22
+CY				  BIT	      D7
+DELAY_1S			  CODE	    0022	  32
+DISPLAY				  CODE	    0010	  16
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+LOOP1				  CODE	    0028	  36
+LOOP2				  CODE	    0026	  35
+LOOP3				  CODE	    0024	  34
+MAIN				  CODE	    0000	   8
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+START				  CODE	    0007	  12
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6
