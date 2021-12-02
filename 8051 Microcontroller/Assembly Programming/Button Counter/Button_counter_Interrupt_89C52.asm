@@ -16,9 +16,9 @@ ORG 0003H ; INT0 interrupt service routine (ISR)
 ORG 0030H 
 MAIN : 
 		MOV R3,#0 ; R3 is a button counter
-		MOV IE,#81H; enable interrupt and INT0 ISR
+		MOV IE,#81H; enable global interrupt and INT0 ISR
 		MOV A, #0
-		MOV P1, A ; start with 00
+		MOV P1, A ; display 00 on 2 LEDs when start
 DISPLAY : 	SJMP DISPLAY ; forever loop here
 ; BCD Decoder
 BCD_DECODE : 
@@ -28,9 +28,9 @@ BCD_DECODE :
 		JC END_BCD 
 		MOV A, R3 ; if 4 low bits larger than 9
 		ADD A, #6 ; BCD conversion
-		MOV R3, A
-		SUBB A, #154
-		JNC RESTART
+		MOV R3, A 
+		SUBB A, #154 ; check for value larger than 99
+		JNC RESTART ; back to 00
 END_BCD : 	RET
 RESTART : 	MOV A, #0
 		MOV R3, A

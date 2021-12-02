@@ -40,9 +40,9 @@ ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. 
    16:		N      0030	ORG 0030H
    17:	  0030			MAIN :
    18:	  0030	7B 00				MOV R3,#0 ; R3 is a button counter
-   19:	  0032	75 A8 81			MOV IE,#81H; enable interrupt and INT0 ISR
+   19:	  0032	75 A8 81			MOV IE,#81H; enable global interrupt and INT0 ISR
    20:	  0035	74 00				MOV A, #0
-   21:	  0037	F5 90				MOV P1, A ; start with 00
+   21:	  0037	F5 90				MOV P1, A ; display 00 on 2 LEDs when start
    22:	  0039	80 FE		DISPLAY : 	SJMP DISPLAY ; forever loop here
    23:				; BCD Decoder
    24:	  003B			BCD_DECODE :
@@ -53,8 +53,8 @@ ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. 
    29:	  0042	EB				MOV A, R3 ; if 4 low bits larger than 9
    30:	  0043	24 06				ADD A, #6 ; BCD conversion
    31:	  0045	FB				MOV R3, A
-   32:	  0046	94 9A				SUBB A, #154
-   33:	  0048	50 01				JNC RESTART
+   32:	  0046	94 9A				SUBB A, #154 ; check for value larger than 99
+   33:	  0048	50 01				JNC RESTART ; back to 00
    34:	  004A	22		END_BCD : 	RET
    35:	  004B	74 00		RESTART : 	MOV A, #0
    36:	  004D	FB				MOV R3, A
